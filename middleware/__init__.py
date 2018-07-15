@@ -1,3 +1,3 @@
-from .auth import create_new_user
+from .auth import *
 
-__all__ = [create_new_user]
+__all__ = [create_new_user, login_user_session]

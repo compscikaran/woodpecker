@@ -1,4 +1,3 @@
-from flask_login import UserMixin
 from .db import db
 
 
@@ -14,7 +13,7 @@ class Account(db.Model):
     )
 
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     user_id = db.Column(
         db.Integer,
         primary_key=True,
