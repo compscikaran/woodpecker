@@ -8,13 +8,15 @@ class Transaction(db.Model):
         primary_key=True
     )
     account_no = db.Column(
-        db.Integer
+        db.Integer,
+        nullable=False,
     )
     user = db.Column(
-        db.Text
+        db.Text,
+        nullable=False,
     )
     amount = db.Column(
-        db.Float
+        db.Float,
     )
     transaction_type = db.Column(
         transaction_type_enum
