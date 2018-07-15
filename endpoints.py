@@ -45,15 +45,22 @@ def refresh_access_token():
     return jsonify({'access_token': access_token})
 
 
+account_bp = Blueprint('account_bp', __name__)
+
+
+@account_bp.route('/account/new', methods=['POST'])
+@jwt_required
+def create_account():
+    return bl.create_bank_account(request.get_json())
+
+
 transactions_bp = Blueprint('transactions_bp', __name__)
 
 
-@transactions_bp.route('/', methods=['GET'])
+@transactions_bp.route('/transaction/deposit', methods=['POST'])
 @jwt_required
-def is_working():
-    new_entry = dm.Transaction()
-    new_entry.account_no = 1235
-    dm.db.session.add(new_entry)
-    dm.db.session.commit()
-    return jsonify({'msg': 'Working'})
+def do_deposit():
+    return bl.new_deposit(request.get_json())
+
+
 

@@ -9,10 +9,7 @@ class Transaction(db.Model):
     )
     account_no = db.Column(
         db.Integer,
-        nullable=False,
-    )
-    user = db.Column(
-        db.Text,
+        db.ForeignKey('account.account_no'),
         nullable=False,
     )
     amount = db.Column(
@@ -25,3 +22,5 @@ class Transaction(db.Model):
         db.DateTime,
         default=datetime.datetime.now()
     )
+    account = db.relationship('Account', backref='transaction',
+                              uselist=False, foreign_keys=[account_no])

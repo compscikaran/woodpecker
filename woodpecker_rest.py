@@ -1,6 +1,6 @@
 from flask import Flask
 import datamodels as dm
-from endpoints import login_bp, transactions_bp, blacklist
+from endpoints import login_bp, transactions_bp, blacklist, account_bp
 from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ with app.app_context():
 
 app.register_blueprint(transactions_bp)
 app.register_blueprint(login_bp)
-
+app.register_blueprint(account_bp)
 jwt = JWTManager(app)
 
 

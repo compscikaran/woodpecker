@@ -11,6 +11,13 @@ class Account(db.Model):
         default=0,
         nullable=False
     )
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('user.user_id'),
+        nullable=False
+    )
+    user = db.relationship('User', backref='account',
+                           uselist=False, foreign_keys=[user_id])
 
 
 class User(db.Model):
