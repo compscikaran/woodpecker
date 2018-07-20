@@ -1,5 +1,5 @@
 from flask import Flask
-from initialize import initialize_blueprints, initialize_jwt, initialize_scheduler, load_config
+from initialize import initialize_blueprints, initialize_jwt, initialize_scheduler, load_config, initialize_admin
 import datamodels as dm
 
 app = Flask(__name__)
@@ -10,6 +10,7 @@ with app.app_context():
 initialize_blueprints(app)
 initialize_jwt(app)
 initialize_scheduler()
+initialize_admin(app)
 
 if __name__ == '__main__':
     app.run()

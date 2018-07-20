@@ -3,6 +3,9 @@ from flask_jwt_extended import JWTManager
 from apscheduler.schedulers.background import BackgroundScheduler
 from middleware import calculate_interest, recheck_balance
 from endpoints import blacklist
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+import datamodels as dm
 
 def initialize_blueprints(app):
     app.register_blueprint(transactions_bp)
@@ -31,3 +34,10 @@ def load_config(app):
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+
+
+def initialize_admin(app):
+    admin = Admin(app)
+    admin.add_view(ModelView(dm.User, dm.db.session))
+    admin.add_view(ModelView(dm.Account, dm.db.session))
+    admin.add_view(ModelView(dm.Transaction, dm.db.session))
