@@ -2,8 +2,6 @@ from flask import Blueprint
 from flask import jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_raw_jwt
 from flask_jwt_extended import jwt_refresh_token_required, create_access_token
-
-import datamodels as dm
 import middleware as bl
 
 blacklist = set()
@@ -63,4 +61,7 @@ def do_deposit():
     return bl.new_deposit(request.get_json())
 
 
-
+@transactions_bp.route('/transaction/withdrawal', methods=['POST'])
+@jwt_required
+def do_withdrawal():
+    return bl.new_withdrawal(request.get_json())

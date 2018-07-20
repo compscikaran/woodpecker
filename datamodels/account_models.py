@@ -16,6 +16,10 @@ class Account(db.Model):
         db.ForeignKey('user.user_id'),
         nullable=False
     )
+    aer = db.Column(
+        db.Float,
+        nullable=False
+    )
     user = db.relationship('User', backref='account',
                            uselist=False, foreign_keys=[user_id])
 
