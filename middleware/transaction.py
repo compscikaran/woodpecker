@@ -84,3 +84,36 @@ def new_withdrawal(input_data):
         resp = make_response("", 400)
         resp.headers["custom-message"] = 'Could Not Complete Transaction'
         return resp
+
+
+def fetch_transactions(account_no):
+    try:
+        account = dm.db.session.query(dm.Account)\
+            .filter(dm.Account.account_no == account_no).one_or_none()
+        if account is None:
+            resp = make_response("", 404)
+            resp.headers["custom-message"] = 'Account Not Found'
+            return resp
+        transactions = dm.db.session.query(dm.Transaction)\
+            .filter(dm.Transaction.account_no == account_no).all()
+        return_dict = {
+            'account_no': account.account_no,
+            'user_id': account.user_id,
+            'balance': account.balance,
+            'aer': account.aer,
+            'created_date': account.timestamp,
+            'transactions': []
+        }
+        for transaction in transactions:
+            return_dict['transactions'].append({
+                'transaction_id': transaction.transaction_id,
+                'amount': transaction.amount,
+                'type': transaction.transaction_type,
+                'datetime': transaction.timestamp})
+        res = json.dumps(return_dict)
+        resp = make_response(res, 200)
+        return resp
+    except (KeyError, TypeError):
+        resp = make_response("", 400)
+        resp.headers["custom-message"] = 'Invalid Data Request'
+        return resp

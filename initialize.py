@@ -2,7 +2,7 @@ from endpoints import transactions_bp, login_bp, account_bp
 from flask_jwt_extended import JWTManager
 from apscheduler.schedulers.background import BackgroundScheduler
 from middleware import calculate_interest, recheck_balance
-
+from endpoints import blacklist
 
 def initialize_blueprints(app):
     app.register_blueprint(transactions_bp)

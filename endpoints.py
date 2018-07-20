@@ -65,3 +65,19 @@ def do_deposit():
 @jwt_required
 def do_withdrawal():
     return bl.new_withdrawal(request.get_json())
+
+
+@transactions_bp.route('/transaction/interest', methods=['GET'])
+@jwt_required
+def do_deposit_interest():
+    bl.calculate_interest()
+    return jsonify({'msg': 'Interest Calculation Successful'})
+
+
+@transactions_bp.route('/transaction/fetch', methods=['GET'])
+@jwt_required
+def do_fetch_transactions():
+    account_no = request.args.get('account_no')
+    if account_no is None:
+        return jsonify({'msg': 'Please Specify Account Number'})
+    return bl.fetch_transactions(account_no)

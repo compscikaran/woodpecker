@@ -1,8 +1,7 @@
-from .db import db, transaction_type_enum
-import datetime
+from .db import db, transaction_type_enum, PrimitiveAttributes
 
 
-class Transaction(db.Model):
+class Transaction(db.Model, PrimitiveAttributes):
     transaction_id = db.Column(
         db.Integer,
         primary_key=True
@@ -18,9 +17,6 @@ class Transaction(db.Model):
     transaction_type = db.Column(
         transaction_type_enum
     )
-    timestamp = db.Column(
-        db.DateTime,
-        default=datetime.datetime.now()
-    )
+
     account = db.relationship('Account', backref='transaction',
                               uselist=False, foreign_keys=[account_no])

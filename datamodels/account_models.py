@@ -1,7 +1,7 @@
-from .db import db
+from .db import db, PrimitiveAttributes
 
 
-class Account(db.Model):
+class Account(db.Model, PrimitiveAttributes):
     account_no = db.Column(
         db.Integer,
         primary_key=True
@@ -20,11 +20,12 @@ class Account(db.Model):
         db.Float,
         nullable=False
     )
+
     user = db.relationship('User', backref='account',
                            uselist=False, foreign_keys=[user_id])
 
 
-class User(db.Model):
+class User(db.Model, PrimitiveAttributes):
     user_id = db.Column(
         db.Integer,
         primary_key=True,

@@ -5,6 +5,7 @@ from flask import make_response, json
 def create_bank_account(input_data):
     try:
         userid = input_data.get('user_id')
+        rate = input_data.get('aer')
         user = dm.db.session.query(dm.User) \
             .filter(dm.User.user_id == userid).one_or_none()
         if user is None:
@@ -13,6 +14,7 @@ def create_bank_account(input_data):
             return resp
         account = dm.Account()
         account.user = user
+        account.aer = rate
         dm.db.session.add(account)
         dm.db.session.commit()
         resp_data = json.dumps({

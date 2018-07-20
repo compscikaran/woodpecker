@@ -9,6 +9,7 @@ def calculate_interest():
             transaction = dm.Transaction()
             transaction.account = account
             transaction.transaction_type = 'Interest'
+            transaction.amount = interest_rate*account.balance
             dm.db.session.add(transaction)
             account.balance = (1 + interest_rate)*account.balance
 
