@@ -81,3 +81,12 @@ def do_fetch_transactions():
     if account_no is None:
         return jsonify({'msg': 'Please Specify Account Number'})
     return bl.fetch_transactions(account_no)
+
+@transactions_bp.route('/transaction/statement', methods=['GET'])
+@jwt_required
+def do_fetch_statement():
+    account_no = request.args.get('account_no')
+    if account_no is None:
+        return jsonify({'msg': 'Please Specify Account Number'})
+    return bl.create_pdf(account_no)
+

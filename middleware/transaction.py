@@ -1,6 +1,8 @@
 import datamodels as dm
-from flask import make_response, json
-
+from flask import make_response, json, send_from_directory
+import pandas as pd
+import pdfkit as pk
+import datetime as dt
 
 def new_deposit(input_data):
     try:
@@ -117,3 +119,26 @@ def fetch_transactions(account_no):
         resp = make_response("", 400)
         resp.headers["custom-message"] = 'Invalid Data Request'
         return resp
+
+def create_pdf(account_no):
+    try:
+        account = dm.db.session.query(dm.Account)\
+            .filter(dm.Account.account_no == account_no).one_or_none()
+        if account is None:
+            resp = make_response("", 404)
+            resp.headers["custom-message"] = 'Account Not Found'
+            return resp
+        transactions = dm.db.session.query(dm.Transaction.timestamp, dm.Transaction.amount, dm.Transaction.timestamp, dm.Transaction.transaction_type)\
+            .filter(dm.Transaction.account_no == account_no).all()
+        df_all = pd.DataFrame(transactions)
+        html = df_all.to_html()
+        filename = str(dt.datetime.now()) + str(account_no) + '.pdf'
+        filepath = 'statements/'+ filename
+        pk.from_string(html, filepath)
+        return send_from_directory('statements',filepath)
+    except (KeyError, TypeError):
+        resp = make_response("", 400)
+        resp.headers["custom-message"] = 'Invalid Data Request'
+        return resp
+
+
