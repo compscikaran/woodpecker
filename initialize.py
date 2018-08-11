@@ -34,6 +34,7 @@ def load_config(app):
     app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+    app.config['PDF_PATH'] = 'statements/'
 
 
 def initialize_admin(app):

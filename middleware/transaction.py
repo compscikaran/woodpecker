@@ -1,5 +1,5 @@
 import datamodels as dm
-from flask import make_response, json, send_from_directory
+from flask import make_response, json, send_from_directory, current_app
 import pandas as pd
 import pdfkit as pk
 import datetime as dt
@@ -133,7 +133,7 @@ def create_pdf(account_no):
         df_all = pd.DataFrame(transactions)
         html = df_all.to_html()
         filename = str(dt.datetime.now()) + str(account_no) + '.pdf'
-        filepath = 'statements/'+ filename
+        filepath = current_app.config["PDF_PATH"] + filename
         pk.from_string(html, filepath)
         return send_from_directory('statements',filepath)
     except (KeyError, TypeError):
