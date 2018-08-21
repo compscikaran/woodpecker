@@ -50,6 +50,10 @@ def login_user_session(input_data):
         if current_user.password ==  hashlib.sha256(password.encode()).hexdigest():
             access_token = create_access_token(identity=username)
             refresh_token = create_refresh_token(identity=username)
+        else:
+            resp = make_response("", 400)
+            resp.headers["custom-message"] = 'Incorrect Password'
+            return resp
         resp_data = json.dumps({
             'user_id': current_user.user_id,
             'access_token': access_token,
